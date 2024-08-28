@@ -1,9 +1,8 @@
 package com.northcoders.demospringbootapp.controller;
 
 import com.northcoders.demospringbootapp.dao.CoordinatesDAO;
-import com.northcoders.demospringbootapp.model.Coordinates;
-import com.northcoders.demospringbootapp.model.Data;
-import com.northcoders.demospringbootapp.model.Person;
+import com.northcoders.demospringbootapp.dao.SunriseSunsetDAO;
+import com.northcoders.demospringbootapp.model.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,15 +42,15 @@ public class DemoController {
 
         return coordinates;
     }
-/*
-    @GetMapping("/coordinates")
-    public ArrayList<Coordinates> getCoordinatesForCity() {
-        CoordinatesDAO cDAO = new CoordinatesDAO();
-        ResponseEntity<Data> coordinatesMono = cDAO.getResponseBody();
-        ArrayList<Coordinates> coordinates =  coordinatesMono.getBody().results();
 
-        return coordinates;
+    @GetMapping("/suntimes")
+    @ResponseBody
+    public SunriseSunset getSuntimes(@RequestParam Double lat, Double lng) {
+        SunriseSunsetDAO ssDAO = new SunriseSunsetDAO();
+        ResponseEntity<Results> ssMono = ssDAO.getResponseBody(lat, lng);
+        SunriseSunset suntimes = ssMono.getBody().results();
+
+        return suntimes;
     }
-    */
 
 }
