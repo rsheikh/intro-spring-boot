@@ -10,6 +10,8 @@ public class DemospringbootappApplication {
 
 		SpringApplication.run(DemospringbootappApplication.class, args);
 
+
+
 	}
 
 }

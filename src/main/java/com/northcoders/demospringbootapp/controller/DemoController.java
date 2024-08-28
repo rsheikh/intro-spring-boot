@@ -43,7 +43,7 @@ public class DemoController {
         return coordinates;
     }
 
-    @GetMapping("/suntimes")
+    @GetMapping("/suntimesForCoordinates")
     @ResponseBody
     public SunriseSunset getSuntimes(@RequestParam Double lat, Double lng) {
         SunriseSunsetDAO ssDAO = new SunriseSunsetDAO();
@@ -51,6 +51,18 @@ public class DemoController {
         SunriseSunset suntimes = ssMono.getBody().results();
 
         return suntimes;
+    }
+
+    @GetMapping("/suntimesForCity")
+    @ResponseBody
+    public SunriseSunset getSuntimesForCity(@RequestParam String name) {
+
+        ArrayList<Coordinates> coordinatesList = getCoordinatesForCity(name);
+
+        Coordinates coordinates = coordinatesList.getFirst();
+        SunriseSunset sunriseSunset = getSuntimes(coordinates.latitude(), coordinates.longitude());
+
+        return sunriseSunset;
     }
 
 }
