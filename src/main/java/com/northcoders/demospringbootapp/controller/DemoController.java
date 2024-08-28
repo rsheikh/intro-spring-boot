@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
 @RestController
 @RequestMapping("api/v1")
@@ -55,10 +57,35 @@ public class DemoController {
 
     @GetMapping("/suntimesForCity")
     @ResponseBody
-    public SunriseSunset getSuntimesForCity(@RequestParam String name) {
+    public SunriseSunset getSuntimesForCityParam(@RequestParam String name) {
 
         ArrayList<Coordinates> coordinatesList = getCoordinatesForCity(name);
 
+        return getSuntimes(coordinatesList);
+    }
+
+    @GetMapping("/suntimes")
+    public SunriseSunset getSuntimesViaInput() {
+        Scanner scanner = new Scanner(System.in);
+        String cityName;
+
+        while (true) {
+            try {
+                System.out.println("Please input a city: ");
+                cityName = scanner.next();
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("That city does not exist. Please enter another.");
+                scanner.next();
+            }
+        }
+        scanner.close();
+        ArrayList<Coordinates> coordinatesList = getCoordinatesForCity(cityName);
+
+        return getSuntimes(coordinatesList);
+    }
+
+    public SunriseSunset getSuntimes(ArrayList<Coordinates> coordinatesList) {
         Coordinates coordinates = coordinatesList.getFirst();
         SunriseSunset sunriseSunset = getSuntimes(coordinates.latitude(), coordinates.longitude());
 

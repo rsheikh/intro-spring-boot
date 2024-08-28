@@ -11,7 +11,6 @@ public class CoordinatesDAO {
     public ResponseEntity<Data> getResponseBody(String cityName) {
         webClient = WebClient.create();
 
-//        String uri = "https://geocoding-api.open-meteo.com/v1/search?name=London";
         String uri = "https://geocoding-api.open-meteo.com/v1/search";
         uri = uri +"?name=" + cityName;
 
